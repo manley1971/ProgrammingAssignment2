@@ -16,7 +16,7 @@ makeCacheMatrix <- function(x = matrix()) {
         inverse <- NULL
         set <- function(matrix) {
                 x <<- matrix
-                inverse <- NULL
+                inverse <<- NULL
         }
         get <- function() x
         setinverse <- function ( solvedInverse ) inverse <<- solvedInverse
@@ -31,8 +31,8 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 ## cacheSolve calculates the inverse of the special "matrix"
-## created with the makeCacheMatrix function above. It first checks to see if the inverse has
-## already bee calculated
+## created with the makeCacheMatrix function above. It first checks to see if the inverse
+## has already been calculated. If it has, it just returns that!
 cacheSolve <- function(x, ...) {
         ## Return the cached matrix that is the inverse of 'x'
         ## if we as for the inverse and get back something that isn't NULL
@@ -42,9 +42,10 @@ cacheSolve <- function(x, ...) {
                 return (inverse)
         }
         
-        # this part is of course the "else" part: if we haven't computed the inverse yet,
+        # This part is of course the "else" part: if we haven't computed the inverse yet,
         # it needs to be done. I believe in some languages code after a return statement
-        # is a concern, not for r
+        # is a concern, not for r. Regardless, if the inverse hasn't been solved yet,
+        # we solve it here and store the result.
         data <- x$get()
         inverse <- solve (data, ...)
         x$setinverse (inverse)
@@ -61,7 +62,7 @@ cacheSolve <- function(x, ...) {
 # > source('~/ProgrammingAssignment2/cachematrix.R')
 # > m<-matrix(c(-1,-2,1,1),2,2)
 # > x<-makeCacheMatrix(m)
-# > x$get()
+# > x<-makeCacheMatrix(m)
 # [,1] [,2]
 # [1,]   -1    1
 # [2,]   -2    1
